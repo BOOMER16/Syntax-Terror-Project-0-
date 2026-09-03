@@ -4,8 +4,17 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from google import genai
 from google.genai import types
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows all domains to talk to the backend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialize the Gemini client
 # It will automatically pick up the GEMINI_API_KEY environment variable.
