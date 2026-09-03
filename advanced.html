@@ -380,16 +380,16 @@
                                             stroke-linecap="round" stroke-width="3.5"></path>
                                     </svg>
                                     <div class="absolute flex flex-col items-center">
-                                        <span
-                                            class="font-headline-lg text-headline-lg text-error font-bold leading-none">94</span>
+                                        <span id="basic-risk-score"
+                                            class="font-headline-lg text-headline-lg text-error font-bold leading-none">--</span>
                                         <span
                                             class="font-telemetry-micro text-[9px] text-on-surface-variant uppercase">/
                                             100</span>
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-space-2xs">
-                                    <span class="font-headline-sm text-title-md text-on-surface">Unknown Severity</span>
-                                    <span class="font-body-sm text-body-sm text-on-surface-variant">Intent: Pending Analysis...</span>
+                                    <span id="basic-risk-severity" class="font-headline-sm text-title-md text-on-surface">Unknown Severity</span>
+                                    <span id="basic-risk-reason" class="font-body-sm text-body-sm text-on-surface-variant">Intent: Pending Analysis...</span>
                                 </div>
                             </div>
                         </div>
@@ -429,7 +429,7 @@
                                     class="font-telemetry-micro text-telemetry-micro uppercase px-space-xs py-space-2xs bg-secondary-container/20 text-secondary-fixed rounded">3
                                     Pending</span>
                             </div>
-                            <div class="py-space-lg text-center text-on-surface-variant italic text-body-sm">
+                            <div id="basic-remediations" class="py-space-lg text-center text-on-surface-variant italic text-body-sm">
                                 No remediation steps available until analysis is complete.
                             </div>
                         </div>
@@ -462,7 +462,7 @@
                             CONTAINMENT VERIFIED AT STEP 4
                         </span>
                     </div>
-                    <div class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
+                    <div id="basic-timeline" class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
                         Waiting for telemetry data to build attack progression timeline...
                     </div>
                 </section>
@@ -486,7 +486,7 @@
                                 Primary Artifacts</span>
                         </div>
                         <div class="overflow-x-auto">
-                            <div class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
+                            <div id="basic-iocs" class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
                                 No IOCs extracted. Pending analysis...
                             </div>
                         </div>
@@ -502,7 +502,7 @@
                                 <h2 class="font-headline-sm text-headline-sm text-primary">Threat Profile</h2>
                             </div>
                             <div class="space-y-space-md">
-                                <div class="text-on-surface-variant italic text-body-sm">
+                                <div id="basic-threat-profile" class="text-on-surface-variant italic text-body-sm">
                                     No profile generated.
                                 </div>
                             </div>
@@ -572,6 +572,101 @@
                     }
                     if (intentDesc && data.intent_explanation) {
                         intentDesc.innerText = data.intent_explanation;
+                    }
+                    
+                    if (data.risk_score !== undefined) {
+                        const scoreEl = document.getElementById('basic-risk-score');
+                        if (scoreEl) scoreEl.innerText = data.risk_score;
+                        const sevEl = document.getElementById('basic-risk-severity');
+                        if (sevEl) {
+                            if (data.risk_score >= 90) sevEl.innerText = "Critical Breach Severity";
+                            else if (data.risk_score >= 70) sevEl.innerText = "High Severity";
+                            else if (data.risk_score >= 40) sevEl.innerText = "Medium Severity";
+                            else sevEl.innerText = "Low Severity";
+                        }
+                    }
+                    if (data.risk_reason) {
+                        const reasonEl = document.getElementById('basic-risk-reason');
+                        if (reasonEl) reasonEl.innerText = "Intent: " + data.risk_reason;
+                    }
+
+                    if (data.remediation_steps && data.remediation_steps.length > 0) {
+                        const remEl = document.getElementById('basic-remediations');
+                        if (remEl) {
+                            let html = '<ul class="space-y-space-sm mt-space-xs">';
+                            data.remediation_steps.forEach((step, idx) => {
+                                html += `<li class="flex items-start gap-space-sm text-body-sm">
+                                    <span class="w-5 h-5 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-code-sm text-code-sm font-semibold mt-0.5">${idx + 1}</span>
+                                    <div class="flex flex-col"><span class="text-on-surface font-medium">${step}</span></div>
+                                </li>`;
+                            });
+                            html += '</ul>';
+                            remEl.outerHTML = html;
+                        }
+                    }
+
+                    if (data.attack_timeline && data.attack_timeline.length > 0) {
+                        const timeEl = document.getElementById('basic-timeline');
+                        if (timeEl) {
+                            let html = '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md relative mt-space-sm">';
+                            data.attack_timeline.forEach((phase, idx) => {
+                                html += `<div class="bg-surface-container rounded-lg p-space-md flex flex-col justify-between relative shadow transition-all hover:bg-surface-container-high">
+                                    <div class="flex items-center justify-between mb-space-sm">
+                                        <span class="font-telemetry-micro text-telemetry-micro text-primary-container font-semibold uppercase tracking-wider">Phase 0${idx+1}</span>
+                                        <span class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center text-code-sm font-code-sm">${idx+1}</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-sm mb-space-md">
+                                        <div class="p-2 rounded bg-surface-container-low text-tertiary-fixed-dim"><span class="material-symbols-outlined text-[22px]">memory</span></div>
+                                        <div><h3 class="font-title-md text-title-md text-on-surface font-semibold">${phase.phase_name}</h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">${phase.description}</p></div>
+                                    </div>
+                                </div>`;
+                            });
+                            html += '</div>';
+                            timeEl.outerHTML = html;
+                        }
+                    }
+                    
+                    if (data.iocs && data.iocs.length > 0) {
+                        const iocEl = document.getElementById('basic-iocs');
+                        if (iocEl) {
+                            let html = `<table class="w-full text-left font-body-sm text-body-sm">
+                                <thead>
+                                    <tr class="bg-surface-container text-on-surface-variant font-telemetry-micro text-telemetry-micro uppercase tracking-wider">
+                                        <th class="py-space-sm px-space-md rounded-l">Indicator</th>
+                                        <th class="py-space-sm px-space-md">Type</th>
+                                        <th class="py-space-sm px-space-md text-right rounded-r">Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-surface-container">`;
+                            data.iocs.forEach((ioc) => {
+                                html += `<tr class="hover:bg-surface-container/40 transition-colors">
+                                    <td class="py-space-sm px-space-md font-code-md text-code-md text-primary">${ioc.indicator}</td>
+                                    <td class="py-space-sm px-space-md text-on-surface">${ioc.type}</td>
+                                    <td class="py-space-sm px-space-md text-right"><span class="font-telemetry-micro text-telemetry-micro px-space-xs py-space-2xs bg-surface-container text-tertiary-fixed-dim rounded">${ioc.classification}</span></td>
+                                </tr>`;
+                            });
+                            html += `</tbody></table>`;
+                            iocEl.outerHTML = html;
+                        }
+                    }
+
+                    if (data.threat_profile) {
+                        const profEl = document.getElementById('basic-threat-profile');
+                        if (profEl) {
+                            profEl.outerHTML = `<div>
+                                <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Adversary Category</span>
+                                <span class="font-title-md text-title-md text-on-surface font-semibold">${data.threat_profile.adversary_category}</span>
+                            </div>
+                            <div class="mt-space-sm">
+                                <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Technique Pattern</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">${data.threat_profile.technique_pattern}</span>
+                            </div>
+                            <div class="mt-space-sm">
+                                <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Target Objective</span>
+                                <span class="font-body-sm text-body-sm text-on-surface">${data.threat_profile.target_objective}</span>
+                            </div>`;
+                        }
                     }
                 } catch (e) {
                     console.error("Failed to parse analysis data", e);
