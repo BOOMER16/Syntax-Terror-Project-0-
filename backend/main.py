@@ -74,8 +74,20 @@ def analyze_script(request: AnalyzeRequest):
             ),
         )
         
-        # The response.text is guaranteed to be a JSON string that matches the AnalyzeResponse schema
-        return json.loads(response.text)
+        if hasattr(response, 'parsed') and response.parsed:
+            # If the SDK automatically parsed it into the Pydantic model
+            return response.parsed
+            
+        # Fallback manual parsing if response.text has markdown formatting
+        text = response.text.strip()
+        if text.startswith("```json"):
+            text = text[7:]
+        elif text.startswith("```"):
+            text = text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+            
+        return json.loads(text.strip())
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error generating analysis: {str(e)}\nRaw Response (if any): {getattr(response, 'text', 'No response text') if 'response' in locals() else 'None'}")

@@ -380,7 +380,11 @@ if ($t_proc) {
             body: JSON.stringify({ script: payload })
         });
         
-        if (!response.ok) throw new Error("Backend returned " + response.status);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            const errorMsg = errorData.detail ? JSON.stringify(errorData.detail) : await response.text();
+            throw new Error(`Backend returned ${response.status}: ${errorMsg}`);
+        }
         
         const data = await response.json();
         
