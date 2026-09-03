@@ -372,6 +372,8 @@ if ($t_proc) {
             <div class="text-outline-variant font-code-sm mb-space-2xs">// De-obfuscated Output</div>
             <pre class="text-primary-container whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded mb-space-md font-code-sm">${lastData.deobfuscated_code}</pre>
         `;
+    } else if (outputBox) {
+        outputBox.innerHTML = '<div class="text-on-surface-variant italic text-center">No data available. Please paste a payload and click \'De-obfuscate AST\' to begin analysis.</div>';
     }
   });
 
