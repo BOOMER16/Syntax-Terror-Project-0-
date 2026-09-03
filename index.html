@@ -215,7 +215,7 @@ if ($t_proc) {
 <!-- Tab Header Strip -->
 <div class="bg-surface-container-low rounded-lg p-space-2xs flex items-center justify-between shadow-sm overflow-x-auto">
 <div class="flex items-center gap-space-2xs" role="tablist">
-<button class="px-space-md py-space-xs rounded bg-surface-container text-primary-container font-headline-sm text-body-sm flex items-center gap-space-xs font-semibold">
+<button id="tab-deobfuscated" class="px-space-md py-space-xs rounded bg-surface-container text-primary-container font-headline-sm text-body-sm flex items-center gap-space-xs font-semibold cursor-pointer">
 <span class="material-symbols-outlined text-[16px]">terminal</span>
 <span>De-obfuscated Source</span>
 </button>
@@ -223,7 +223,7 @@ if ($t_proc) {
 <span class="material-symbols-outlined text-[16px]">security</span>
 <span>Threat Signature &amp; MITRE</span>
 </button>
-<button class="px-space-md py-space-xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-space-xs transition-colors">
+<button id="tab-yara" class="px-space-md py-space-xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-space-xs transition-colors cursor-pointer">
 <span class="material-symbols-outlined text-[16px]">rule</span>
 <span>YARA Rule Generator</span>
 </button>
@@ -364,6 +364,49 @@ if ($t_proc) {
 </div>
 </div>
 <script>
+  let lastData = null; // Store the Gemini response globally
+
+  const outputBox = document.querySelectorAll('.bg-surface-container-lowest')[1];
+  const tabDeob = document.getElementById('tab-deobfuscated');
+  const tabYara = document.getElementById('tab-yara');
+
+  // Helper to switch active tab visual state
+  function setActiveTab(activeBtn) {
+    [tabDeob, tabYara].forEach(btn => {
+      if (!btn) return;
+      btn.classList.remove('bg-surface-container', 'text-primary-container', 'font-semibold');
+      btn.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container');
+    });
+    if (activeBtn) {
+      activeBtn.classList.remove('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container');
+      activeBtn.classList.add('bg-surface-container', 'text-primary-container', 'font-semibold');
+    }
+  }
+
+  tabDeob?.addEventListener('click', () => {
+    setActiveTab(tabDeob);
+    if (lastData && outputBox) {
+        outputBox.innerHTML = `
+            <div class="text-secondary-fixed mb-space-sm font-bold text-lg">✓ Threat Identified: ${lastData.threat_name}</div>
+            <div class="text-on-surface mb-space-md border-l-2 border-secondary-fixed pl-space-sm py-1 bg-surface-container/30">${lastData.intent_explanation}</div>
+            <div class="text-outline-variant font-code-sm mb-space-2xs">// De-obfuscated Output</div>
+            <pre class="text-primary-container whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded mb-space-md font-code-sm">${lastData.deobfuscated_code}</pre>
+        `;
+    }
+  });
+
+  tabYara?.addEventListener('click', () => {
+    setActiveTab(tabYara);
+    if (lastData && outputBox) {
+        outputBox.innerHTML = `
+            <div class="text-tertiary-fixed font-bold mb-space-sm">Auto-Generated YARA Rule for: ${lastData.threat_name}</div>
+            <pre class="text-tertiary-fixed-dim whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded font-code-sm">${lastData.yara_rule}</pre>
+        `;
+    } else if (outputBox) {
+        outputBox.innerHTML = '<div class="text-on-surface-variant italic p-4">No YARA rule available. Please analyze a payload first.</div>';
+    }
+  });
+
   // Connect the frontend button to the FastAPI Backend on Render
   document.getElementById('deobfuscate-btn')?.addEventListener('click', async function() {
     const btn = this;
@@ -387,21 +430,8 @@ if ($t_proc) {
         }
         
         const data = await response.json();
-        
-        // Find the right-side output box (the second code box on the screen)
-        const outputBox = document.querySelectorAll('.bg-surface-container-lowest')[1];
-        if (outputBox) {
-            outputBox.innerHTML = `
-                <div class="text-secondary-fixed mb-space-sm font-bold text-lg">✓ Threat Identified: ${data.threat_name}</div>
-                <div class="text-on-surface mb-space-md border-l-2 border-secondary-fixed pl-space-sm py-1 bg-surface-container/30">${data.intent_explanation}</div>
-                
-                <div class="text-outline-variant font-code-sm mb-space-2xs">// De-obfuscated Output</div>
-                <pre class="text-primary-container whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded mb-space-md font-code-sm">${data.deobfuscated_code}</pre>
-                
-                <div class="text-outline-variant font-code-sm mb-space-2xs">// Auto-Generated YARA Rule</div>
-                <pre class="text-tertiary-fixed-dim whitespace-pre-wrap p-space-sm bg-surface-container/50 rounded font-code-sm">${data.yara_rule}</pre>
-            `;
-        }
+        lastData = data;
+        tabDeob?.click(); // Automatically switch to De-obfuscated Source tab and render
         
         btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span><span>Analysis Complete</span>';
         btn.classList.replace('bg-primary-container', 'bg-secondary-container');
