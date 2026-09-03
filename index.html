@@ -413,6 +413,7 @@ if ($t_proc) {
         
         const data = await response.json();
         lastData = data;
+        localStorage.setItem('axon_analysis', JSON.stringify(data));
         tabDeob?.click(); // Automatically switch to De-obfuscated Source tab and render
         
         btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span><span>Analysis Complete</span>';

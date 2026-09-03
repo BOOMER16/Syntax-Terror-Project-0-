@@ -275,8 +275,8 @@
                                     Detected 14 mins ago
                                 </span>
                             </div>
-                            <h1 class="font-display-lg text-display-lg text-primary tracking-tight mt-space-xs">
-                                Trojan.Win32.CobaltStrike.Stager
+                            <h1 id="basic-threat-name" class="font-display-lg text-display-lg text-primary tracking-tight mt-space-xs">
+                                Pending Analysis...
                             </h1>
                             <div
                                 class="flex flex-wrap items-center gap-space-md text-on-surface-variant font-body-sm text-body-sm pt-space-2xs">
@@ -340,11 +340,8 @@
                                     class="font-telemetry-micro text-telemetry-micro uppercase px-space-xs py-space-2xs bg-surface-container text-on-surface-variant rounded">Executive
                                     Summary</span>
                             </div>
-                            <p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xs">
-                                A malicious PowerShell script attempted to bypass system security, establish a covert
-                                connection to an unauthorized external server (<span
-                                    class="font-code-sm text-code-sm text-primary bg-surface-container px-space-xs py-0.5 rounded">c2-updates-win.org</span>),
-                                and inject beacon payloads into legitimate Windows system processes.
+                            <p id="basic-intent-explanation" class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xs">
+                                No incident loaded. Please navigate to the Advanced View and analyze a payload first.
                             </p>
                         </div>
                         <div
@@ -812,7 +809,28 @@
             </script>
         </main>
     </div>
-<script src="navigation.js"></script>
+    <script src="navigation.js"></script>
+    <script>
+        // Load dynamic data from Advanced View analysis if available
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedData = localStorage.getItem('axon_analysis');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    const threatTitle = document.getElementById('basic-threat-name');
+                    const intentDesc = document.getElementById('basic-intent-explanation');
+                    if (threatTitle && data.threat_name) {
+                        threatTitle.innerText = data.threat_name;
+                    }
+                    if (intentDesc && data.intent_explanation) {
+                        intentDesc.innerText = data.intent_explanation;
+                    }
+                } catch (e) {
+                    console.error("Failed to parse analysis data", e);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
