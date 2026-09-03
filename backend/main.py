@@ -20,6 +20,10 @@ class AnalyzeResponse(BaseModel):
     deobfuscated_code: str
     yara_rule: str
 
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "AXON.REV Backend is running! Send a POST request to /analyze or visit /docs for the API schema."}
+
 @app.post("/analyze", response_model=AnalyzeResponse)
 def analyze_script(request: AnalyzeRequest):
     if not request.script:
