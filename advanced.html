@@ -388,10 +388,8 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-space-2xs">
-                                    <span class="font-headline-sm text-title-md text-on-surface">Extreme Breach
-                                        Severity</span>
-                                    <span class="font-body-sm text-body-sm text-on-surface-variant">Intent: Data
-                                        exfiltration and credential dumping via memory beaconing.</span>
+                                    <span class="font-headline-sm text-title-md text-on-surface">Unknown Severity</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant">Intent: Pending Analysis...</span>
                                 </div>
                             </div>
                         </div>
@@ -431,34 +429,9 @@
                                     class="font-telemetry-micro text-telemetry-micro uppercase px-space-xs py-space-2xs bg-secondary-container/20 text-secondary-fixed rounded">3
                                     Pending</span>
                             </div>
-                            <ul class="space-y-space-sm mt-space-xs">
-                                <li class="flex items-start gap-space-sm text-body-sm">
-                                    <span
-                                        class="w-5 h-5 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-code-sm text-code-sm font-semibold mt-0.5">1</span>
-                                    <div class="flex flex-col">
-                                        <span class="text-on-surface font-medium">Revoke compromised user session</span>
-                                        <span class="font-code-sm text-code-sm text-on-surface-variant">User:
-                                            FIN\jsmith</span>
-                                    </div>
-                                </li>
-                                <li class="flex items-start gap-space-sm text-body-sm">
-                                    <span
-                                        class="w-5 h-5 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-code-sm text-code-sm font-semibold mt-0.5">2</span>
-                                    <div class="flex flex-col">
-                                        <span class="text-on-surface font-medium">Block C2 domain at Edge Gateway</span>
-                                        <span class="font-code-sm text-code-sm text-outline">cdn-updates-win.org</span>
-                                    </div>
-                                </li>
-                                <li class="flex items-start gap-space-sm text-body-sm">
-                                    <span
-                                        class="w-5 h-5 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-code-sm text-code-sm font-semibold mt-0.5">3</span>
-                                    <div class="flex flex-col">
-                                        <span class="text-on-surface font-medium">Run full telemetry scan</span>
-                                        <span class="text-on-surface-variant font-body-sm text-body-sm">46 fleet agent
-                                            sensors</span>
-                                    </div>
-                                </li>
-                            </ul>
+                            <div class="py-space-lg text-center text-on-surface-variant italic text-body-sm">
+                                No remediation steps available until analysis is complete.
+                            </div>
                         </div>
                         <button
                             class="mt-space-md w-full py-space-sm bg-surface-container-high hover:bg-surface-bright text-primary font-body-md text-body-md font-semibold rounded flex items-center justify-center gap-space-xs transition-all shadow"
@@ -489,126 +462,8 @@
                             CONTAINMENT VERIFIED AT STEP 4
                         </span>
                     </div>
-                    <!-- 4-Step Visual Sequence -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md relative mt-space-sm">
-                        <!-- Step 1 -->
-                        <div
-                            class="bg-surface-container rounded-lg p-space-md flex flex-col justify-between relative shadow transition-all hover:bg-surface-container-high">
-                            <div class="flex items-center justify-between mb-space-sm">
-                                <span
-                                    class="font-telemetry-micro text-telemetry-micro text-primary-container font-semibold uppercase tracking-wider">Phase
-                                    01 · 09:14:02 AM</span>
-                                <span
-                                    class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center text-code-sm font-code-sm">1</span>
-                            </div>
-                            <div class="flex items-start gap-space-sm mb-space-md">
-                                <div class="p-2 rounded bg-surface-container-low text-tertiary-fixed-dim">
-                                    <span class="material-symbols-outlined text-[22px]">mark_email_read</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-title-md text-title-md text-on-surface font-semibold">Script
-                                        Execution</h3>
-                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                        User opened email invoice attachment <span
-                                            class="font-code-sm text-code-sm text-primary bg-surface-container-low px-1 py-0.5 rounded">invoice_984.vbs</span>,
-                                        automatically invoking Windows PowerShell.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="pt-space-xs text-on-surface-variant font-code-sm text-code-sm flex items-center justify-between bg-surface-container-low px-space-sm py-1 rounded">
-                                <span>Parent: Outlook</span>
-                                <span class="text-outline">PID 4192</span>
-                            </div>
-                        </div>
-                        <!-- Step 2 -->
-                        <div
-                            class="bg-surface-container rounded-lg p-space-md flex flex-col justify-between relative shadow transition-all hover:bg-surface-container-high">
-                            <div class="flex items-center justify-between mb-space-sm">
-                                <span
-                                    class="font-telemetry-micro text-telemetry-micro text-primary-container font-semibold uppercase tracking-wider">Phase
-                                    02 · 09:14:18 AM</span>
-                                <span
-                                    class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center text-code-sm font-code-sm">2</span>
-                            </div>
-                            <div class="flex items-start gap-space-sm mb-space-md">
-                                <div class="p-2 rounded bg-surface-container-low text-tertiary-fixed-dim">
-                                    <span class="material-symbols-outlined text-[22px]">lock_reset</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-title-md text-title-md text-on-surface font-semibold">Defense
-                                        Evasion</h3>
-                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                        Script used nested Base64 and memory XOR masking to prevent file-system
-                                        antivirus inspection on the local hard drive.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="pt-space-xs text-on-surface-variant font-code-sm text-code-sm flex items-center justify-between bg-surface-container-low px-space-sm py-1 rounded">
-                                <span>Method: Fileless Memory</span>
-                                <span class="text-tertiary-fixed-dim">Stealth</span>
-                            </div>
-                        </div>
-                        <!-- Step 3 -->
-                        <div
-                            class="bg-surface-container rounded-lg p-space-md flex flex-col justify-between relative shadow transition-all hover:bg-surface-container-high">
-                            <div class="flex items-center justify-between mb-space-sm">
-                                <span
-                                    class="font-telemetry-micro text-telemetry-micro text-primary-container font-semibold uppercase tracking-wider">Phase
-                                    03 · 09:14:32 AM</span>
-                                <span
-                                    class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center text-code-sm font-code-sm">3</span>
-                            </div>
-                            <div class="flex items-start gap-space-sm mb-space-md">
-                                <div class="p-2 rounded bg-surface-container-low text-error">
-                                    <span class="material-symbols-outlined text-[22px]">cell_tower</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-title-md text-title-md text-on-surface font-semibold">C2 Callout
-                                    </h3>
-                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                        Contacted external server via TLS port 443 to retrieve secondary Cobalt Strike
-                                        reflective staging instructions.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="pt-space-xs text-on-surface-variant font-code-sm text-code-sm flex items-center justify-between bg-surface-container-low px-space-sm py-1 rounded">
-                                <span>Dest: 185.220.101.5</span>
-                                <span class="text-error">Flagged Host</span>
-                            </div>
-                        </div>
-                        <!-- Step 4 -->
-                        <div
-                            class="bg-surface-container rounded-lg p-space-md flex flex-col justify-between relative shadow transition-all hover:bg-surface-container-high ring-1 ring-secondary-container/40">
-                            <div class="flex items-center justify-between mb-space-sm">
-                                <span
-                                    class="font-telemetry-micro text-telemetry-micro text-secondary-fixed font-semibold uppercase tracking-wider">Phase
-                                    04 · 09:14:41 AM</span>
-                                <span
-                                    class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-code-sm font-code-sm font-bold">✓</span>
-                            </div>
-                            <div class="flex items-start gap-space-sm mb-space-md">
-                                <div class="p-2 rounded bg-secondary-container/20 text-secondary-fixed">
-                                    <span class="material-symbols-outlined text-[22px]">shield_lock</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-title-md text-title-md text-secondary-fixed font-semibold">Injection
-                                        Neutralized</h3>
-                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
-                                        Attempted thread hijack of <span
-                                            class="font-code-sm text-code-sm text-primary bg-surface-container-low px-1 py-0.5 rounded">explorer.exe</span>.
-                                        Sensor intercepted memory allocation and terminated process.
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="pt-space-xs text-secondary-fixed font-code-sm text-code-sm flex items-center justify-between bg-surface-container-low px-space-sm py-1 rounded">
-                                <span>Action: EDR Kernel Kill</span>
-                                <span class="font-semibold">Prevented</span>
-                            </div>
-                        </div>
+                    <div class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
+                        Waiting for telemetry data to build attack progression timeline...
                     </div>
                 </section>
                 <!-- 4. Key Indicators & Highlights (Non-Coder Format) -->
@@ -631,97 +486,9 @@
                                 Primary Artifacts</span>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left font-body-sm text-body-sm">
-                                <thead>
-                                    <tr
-                                        class="bg-surface-container text-on-surface-variant font-telemetry-micro text-telemetry-micro uppercase tracking-wider">
-                                        <th class="py-space-sm px-space-md rounded-l">Indicator / Value</th>
-                                        <th class="py-space-sm px-space-md">Type</th>
-                                        <th class="py-space-sm px-space-md">Detection Confidence</th>
-                                        <th class="py-space-sm px-space-md">Classification</th>
-                                        <th class="py-space-sm px-space-md text-right rounded-r">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-surface-container">
-                                    <tr class="hover:bg-surface-container/40 transition-colors">
-                                        <td
-                                            class="py-space-sm px-space-md font-code-md text-code-md text-primary flex items-center gap-space-xs">
-                                            <span class="material-symbols-outlined text-[16px] text-error">public</span>
-                                            c2-updates-win.org
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-on-surface">External C2 Domain</td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-secondary-fixed font-code-sm text-code-sm">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span> 100%
-                                                Confirmed
-                                            </span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="font-telemetry-micro text-telemetry-micro px-space-xs py-space-2xs bg-error-container/60 text-error rounded">APT29
-                                                Infrastructure</span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-right">
-                                            <button
-                                                class="px-space-xs py-1 text-code-sm text-primary hover:bg-surface-container rounded transition-colors">Add
-                                                to Blocklist</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container/40 transition-colors">
-                                        <td
-                                            class="py-space-sm px-space-md font-code-md text-code-md text-primary flex items-center gap-space-xs">
-                                            <span
-                                                class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">lan</span>
-                                            185.220.101.5:443
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-on-surface">IPv4 Endpoint</td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-secondary-fixed font-code-sm text-code-sm">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span> 99.4%
-                                                Verified
-                                            </span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="font-telemetry-micro text-telemetry-micro px-space-xs py-space-2xs bg-surface-container text-tertiary-fixed-dim rounded">TOR
-                                                Exit Relay</span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-right">
-                                            <button
-                                                class="px-space-xs py-1 text-code-sm text-primary hover:bg-surface-container rounded transition-colors">Add
-                                                to Blocklist</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container/40 transition-colors">
-                                        <td
-                                            class="py-space-sm px-space-md font-code-md text-code-md text-primary flex items-center gap-space-xs">
-                                            <span
-                                                class="material-symbols-outlined text-[16px] text-on-surface-variant">description</span>
-                                            invoice_984.vbs
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-on-surface">Malicious Attachment</td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-secondary-fixed font-code-sm text-code-sm">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span> 100%
-                                                Confirmed
-                                            </span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md">
-                                            <span
-                                                class="font-telemetry-micro text-telemetry-micro px-space-xs py-space-2xs bg-surface-container text-on-surface rounded">Trojan
-                                                Dropper</span>
-                                        </td>
-                                        <td class="py-space-sm px-space-md text-right">
-                                            <button
-                                                class="px-space-xs py-1 text-code-sm text-primary hover:bg-surface-container rounded transition-colors">Purge
-                                                Inboxes</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="py-space-xl text-center text-on-surface-variant italic text-body-md mt-space-sm">
+                                No IOCs extracted. Pending analysis...
+                            </div>
                         </div>
                     </div>
                     <!-- Threat Profile & Attribution Card -->
@@ -735,27 +502,8 @@
                                 <h2 class="font-headline-sm text-headline-sm text-primary">Threat Profile</h2>
                             </div>
                             <div class="space-y-space-md">
-                                <div>
-                                    <span
-                                        class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Adversary
-                                        Category</span>
-                                    <span
-                                        class="font-title-md text-title-md text-on-surface font-semibold">State-Sponsored
-                                        / APT29 Variant</span>
-                                </div>
-                                <div>
-                                    <span
-                                        class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Technique
-                                        Pattern</span>
-                                    <span class="font-body-sm text-body-sm text-on-surface">Living-off-the-Land Binaries
-                                        (LOLBIN) executing memory-only payloads</span>
-                                </div>
-                                <div>
-                                    <span
-                                        class="font-telemetry-micro text-telemetry-micro text-on-surface-variant uppercase block">Target
-                                        Objective</span>
-                                    <span class="font-body-sm text-body-sm text-on-surface">Finance Department
-                                        credential access and banking session hijacking</span>
+                                <div class="text-on-surface-variant italic text-body-sm">
+                                    No profile generated.
                                 </div>
                             </div>
                         </div>
